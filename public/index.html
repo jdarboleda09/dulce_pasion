@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DulcePasión — Endulzamos tus momentos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- ===========================
+       TOP BAR
+  =========================== -->
+    <div class="topbar">
+        <div class="topbar__container">
+            <div class="topbar__info">
+                <span class="topbar__item">
+                    <!-- Icono teléfono -->
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z" />
+                    </svg>
+                    +57 311 222 3344
+                </span>
+                <span class="topbar__item">
+                    <!-- Icono correo -->
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    hola@dulcepasion.co
+                </span>
+                <span class="topbar__badge">🚚 Envíos a todo el país</span>
+            </div>
+            <div class="topbar__social">
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/" target="_blank" class="topbar__social-link" aria-label="Instagram">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                </a>
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/" target="_blank" class="topbar__social-link" aria-label="Facebook">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+                    </svg>
+                </a>
+                <!-- TikTok (custom path) -->
+                <a href="https://www.tiktok.com/" class="topbar__social-link" target="_blank" aria-label="TikTok">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z" />
+                    </svg>
+                </a>
+                <!-- Pinterest -->
+                <a href="https://co.pinterest.com/" target="_blank" class="topbar__social-link" aria-label="Pinterest">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.77 1.26-5.33 1.26-5.33s-.32-.65-.32-1.6c0-1.5.87-2.62 1.95-2.62.92 0 1.37.69 1.37 1.52 0 .93-.59 2.32-.9 3.6-.25 1.07.54 1.95 1.59 1.95 1.91 0 3.19-2.46 3.19-5.37 0-2.22-1.49-3.89-4.19-3.89-3.06 0-4.96 2.28-4.96 4.82 0 .87.25 1.49.65 1.96.18.22.2.31.13.56-.05.18-.16.62-.2.79-.06.25-.25.34-.47.25-1.32-.54-1.93-2-1.93-3.63 0-2.69 2.26-5.93 6.75-5.93 3.62 0 5.99 2.62 5.99 5.44 0 3.73-2.07 6.52-5.12 6.52-1.02 0-1.98-.55-2.31-1.18l-.63 2.46c-.23.88-.84 1.98-1.25 2.65.94.29 1.94.45 2.97.45 5.52 0 10-4.48 10-10S17.52 2 12 2z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+       NAVBAR
+  =========================== -->
+    <header class="navbar">
+        <div class="navbar__container">
+            <!-- Logo -->
+            <a href="#inicio" class="navbar__logo">
+                <span class="navbar__logo-icon">✦</span>
+                Dulce<em>Pasión</em>
+            </a>
+
+            <!-- Menú hamburguesa (mobile) -->
+            <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menú">
+                <span></span><span></span><span></span>
+            </button>
+
+            <!-- Navegación -->
+            <nav class="navbar__nav" id="nav-menu">
+                <a href="#inicio" class="navbar__nav-link navbar__nav-link--active">Inicio</a>
+                <a href="#nosotros" class="navbar__nav-link">Nosotros</a>
+                <a href="#productos" class="navbar__nav-link">Productos</a>
+                <a href="#tienda" class="navbar__nav-link">Tienda</a>
+                <a href="#clientes" class="navbar__nav-link">Clientes</a>
+                <a href="#contacto" class="navbar__nav-link">Contacto</a>
+            </nav>
+
+            <!-- Iconos de acción -->
+            <div class="navbar__actions">
+                <!-- Búsqueda inline -->
+                <div class="navbar__search" id="searchBox">
+                    <button class="navbar__action-btn" id="search-btn" aria-label="Buscar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
+                    <div class="navbar__search-input-wrap" id="searchInputWrap">
+                        <input type="text" id="searchInput" class="navbar__search-input"
+                            placeholder="Buscar productos..." autocomplete="off" />
+                        <button class="navbar__search-close" id="searchClose" aria-label="Cerrar búsqueda">✕</button>
+                    </div>
+                </div>
+
+                <!-- resto de botones -->
+                <a href="./auth.html" class="navbar__action-btn" aria-label="Mi cuenta">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </a>
+                <button class="navbar__action-btn navbar__action-btn--cart" aria-label="Carrito">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 01-8 0" />
+                    </svg>
+                    <span class="navbar__cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ===========================
+         HERO SECTION
+    =========================== -->
+        <section class="hero" id="inicio">
+            <!-- Decoraciones de fondo -->
+            <div class="hero__blob hero__blob--1"></div>
+            <div class="hero__blob hero__blob--2"></div>
+            <div class="hero__dots"></div>
+
+            <div class="hero__container">
+                <!-- Contenido de texto -->
+                <div class="hero__content">
+                    <span class="hero__tag">🍬 Desde 2014 endulzando vidas</span>
+                    <h1 class="hero__title">
+                        Endulzamos<br />
+                        <em>tus momentos</em>
+                    </h1>
+                    <p class="hero__subtitle">
+                        Descubre nuestra colección artesanal de dulces, chocolates y confites,
+                        elaborados con los mejores ingredientes para hacer de cada instante algo especial.
+                    </p>
+                    <div class="hero__cta">
+                        <a href="#productos" class="btn btn--primary">
+                            Ver productos
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </a>
+                        <a href="#nosotros" class="btn btn--outline">Conócenos</a>
+                    </div>
+                    <!-- Stats -->
+                    <div class="hero__stats">
+                        <div class="hero__stat">
+                            <span class="hero__stat-number">+10K</span>
+                            <span class="hero__stat-label">Clientes felices</span>
+                        </div>
+                        <div class="hero__stat-divider"></div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-number">+80</span>
+                            <span class="hero__stat-label">Productos únicos</span>
+                        </div>
+                        <div class="hero__stat-divider"></div>
+                        <div class="hero__stat">
+                            <span class="hero__stat-number">10+</span>
+                            <span class="hero__stat-label">Años de pasión</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen hero -->
+                <div class="hero__image-wrap">
+                    <div class="hero__image-frame">
+                        <!-- Imagen principal (placeholder) -->
+                        <img src="https://www.semana.com/resizer/v2/GPL4Z7I5FBCSZGAIMVLKRHH36E.jpg?auth=059ffcc352f3eac46e00862ffd65f311639484ea2df2f8a500e1430071f26302&width=1024&height=1024"
+                            alt="Selección de dulces artesanales DulcePasión" class="hero__image hero__image--main"
+                            width="460" height="460" />
+                        <!-- Floating card -->
+                        <div class="hero__float-card hero__float-card--top">
+                            <span class="hero__float-icon">⭐</span>
+                            <div>
+                                <strong>4.9/5</strong>
+                                <small>Calificación</small>
+                            </div>
+                        </div>
+                        <div class="hero__float-card hero__float-card--bottom">
+                            <span class="hero__float-icon">🎁</span>
+                            <div>
+                                <strong>Envío gratis</strong>
+                                <small>Desde $80.000</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================
+         SECCIÓN DE CARACTERÍSTICAS
+    =========================== -->
+        <section class="features" id="nosotros">
+            <div class="features__container">
+                <!-- Característica 1 -->
+                <article class="feature-card">
+                    <div class="feature-card__icon-wrap">
+                        <span class="feature-card__icon">🏆</span>
+                    </div>
+                    <h3 class="feature-card__title">Productos de calidad</h3>
+                    <p class="feature-card__desc">Ingredientes seleccionados y procesos artesanales que garantizan el
+                        mejor sabor en cada bocado.</p>
+                </article>
+
+                <!-- Característica 2 -->
+                <article class="feature-card">
+                    <div class="feature-card__icon-wrap">
+                        <span class="feature-card__icon">🍫</span>
+                    </div>
+                    <h3 class="feature-card__title">Variedad de productos</h3>
+                    <p class="feature-card__desc">Más de 80 referencias en chocolates, gomitas, caramelos, confites y
+                        mucho más para todos los gustos.</p>
+                </article>
+
+                <!-- Característica 3 -->
+                <article class="feature-card">
+                    <div class="feature-card__icon-wrap">
+                        <span class="feature-card__icon">🚀</span>
+                    </div>
+                    <h3 class="feature-card__title">Envíos rápidos</h3>
+                    <p class="feature-card__desc">Despachamos a todo el país en 24-48 horas con embalaje especial para
+                        que tu pedido llegue perfecto.</p>
+                </article>
+
+                <!-- Característica 4 -->
+                <article class="feature-card">
+                    <div class="feature-card__icon-wrap">
+                        <span class="feature-card__icon">🎂</span>
+                    </div>
+                    <h3 class="feature-card__title">Más de 10 años</h3>
+                    <p class="feature-card__desc">Una década endulzando momentos especiales: cumpleaños, bodas, empresas
+                        y celebraciones únicas.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- ===========================
+         SECCIÓN NUESTROS PRODUCTOS
+    =========================== -->
+        <section class="products" id="productos">
+            <div class="products__container">
+                <!-- Encabezado de sección -->
+                <div class="section-header">
+                    <span class="section-header__tag">Catálogo</span>
+                    <h2 class="section-header__title">Nuestros <em>Productos</em></h2>
+                    <p class="section-header__subtitle">Una selección cuidadosamente elaborada para todos los paladares
+                        y ocasiones.</p>
+                </div>
+
+                <!-- Grid de productos -->
+                <div class="products__grid">
+                    <!-- Se carga dinámicamente desde la BD -->
+                </div>
+
+                <!-- CTA Ver todos -->
+                <div class="products__cta">
+                    <a href="#" class="btn btn--outline btn--large">Ver todos los productos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================
+         BANNER PROMOCIONAL
+    =========================== -->
+        <section class="promo-banner" id="tienda">
+            <div class="promo-banner__container">
+                <div class="promo-banner__content">
+                    <span class="promo-banner__tag">Oferta especial</span>
+                    <h2 class="promo-banner__title">Arma tu caja <em>personalizada</em></h2>
+                    <p class="promo-banner__text">Elige tus dulces favoritos y crea una caja única como regalo o para
+                        darte un capricho. Desde $35.000.</p>
+                    <a href="#" class="btn btn--white">Personalizar mi caja</a>
+                </div>
+                <div class="promo-banner__image-wrap">
+                    <img src="" alt="Caja de dulces personalizada" class="promo-banner__image" width="360"
+                        height="280" />
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================
+         SECCIÓN TESTIMONIOS
+    =========================== -->
+        <section class="testimonials" id="clientes">
+            <div class="testimonials__container">
+                <!-- Encabezado -->
+                <div class="section-header">
+                    <span class="section-header__tag">Testimonios</span>
+                    <h2 class="section-header__title">Lo que dicen nuestros <em>clientes</em></h2>
+                    <p class="section-header__subtitle">Miles de personas ya disfrutan de nuestra dulzura cada día.</p>
+                </div>
+
+                <!-- Grid de testimonios -->
+                <div class="testimonials__grid">
+
+                    <!-- Testimonio 1 -->
+                    <article class="testimonial-card testimonial-card--featured">
+                        <div class="testimonial-card__quote-icon">❝</div>
+                        <div class="testimonial-card__stars">★★★★★</div>
+                        <p class="testimonial-card__text">
+                            "Pedí una caja personalizada para el cumpleaños de mi mamá y quedó increíble.
+                            La presentación es hermosa y los sabores son de otro nivel. ¡Definitivamente volvería a
+                            pedir!"
+                        </p>
+                        <div class="testimonial-card__author">
+                            <div class="testimonial-card__avatar-wrap">
+                                <img src="" alt="Foto de Valentina Torres" class="testimonial-card__avatar" width="52"
+                                    height="52" />
+                            </div>
+                            <div class="testimonial-card__info">
+                                <strong class="testimonial-card__name">Valentina Torres</strong>
+                                <span class="testimonial-card__role">Cliente frecuente · Medellín</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Testimonio 2 -->
+                    <article class="testimonial-card">
+                        <div class="testimonial-card__quote-icon">❝</div>
+                        <div class="testimonial-card__stars">★★★★★</div>
+                        <p class="testimonial-card__text">
+                            "Los chocolates belgas son una maravilla. Los pedí para un evento corporativo
+                            y todos los invitados preguntaron dónde los conseguí. ¡El mejor detalle!"
+                        </p>
+                        <div class="testimonial-card__author">
+                            <div class="testimonial-card__avatar-wrap">
+                                <img src="" alt="Foto de Camilo Restrepo" class="testimonial-card__avatar" width="52"
+                                    height="52" />
+                            </div>
+                            <div class="testimonial-card__info">
+                                <strong class="testimonial-card__name">Camilo Restrepo</strong>
+                                <span class="testimonial-card__role">Empresario · Bogotá</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Testimonio 3 -->
+                    <article class="testimonial-card">
+                        <div class="testimonial-card__quote-icon">❝</div>
+                        <div class="testimonial-card__stars">★★★★☆</div>
+                        <p class="testimonial-card__text">
+                            "El envío llegó súper rápido y el empaque es muy lindo. Las trufas tienen
+                            un sabor espectacular. Lo recomiendo a todos mis amigos."
+                        </p>
+                        <div class="testimonial-card__author">
+                            <div class="testimonial-card__avatar-wrap">
+                                <img src="" alt="Foto de Sofía Mendoza" class="testimonial-card__avatar" width="52"
+                                    height="52" />
+                            </div>
+                            <div class="testimonial-card__info">
+                                <strong class="testimonial-card__name">Sofía Mendoza</strong>
+                                <span class="testimonial-card__role">Repostera · Cali</span>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================
+         NEWSLETTER
+    =========================== -->
+        <section class="newsletter" id="contacto">
+            <div class="newsletter__container">
+                <div class="newsletter__icon">🍬</div>
+                <h2 class="newsletter__title">Suscríbete y recibe <em>10% de descuento</em></h2>
+                <p class="newsletter__text">Entérate primero de nuevos productos, promociones y noticias dulces.</p>
+                <div class="newsletter__form">
+                    <input type="email" class="newsletter__input" placeholder="Tu correo electrónico" />
+                    <button class="btn btn--primary">Suscribirme</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===========================
+       FOOTER
+  =========================== -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__grid">
+                <!-- Columna 1: Marca -->
+                <div class="footer__col footer__col--brand">
+                    <a href="#" class="footer__logo">
+                        <span>✦</span> Dulce<em>Pasión</em>
+                    </a>
+                    <p class="footer__brand-text">Endulzando momentos especiales desde 2014 con amor, calidad y sabor
+                        artesanal.</p>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link" aria-label="Instagram">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                            </svg>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="Facebook">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="Pinterest">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.77 1.26-5.33 1.26-5.33s-.32-.65-.32-1.6c0-1.5.87-2.62 1.95-2.62.92 0 1.37.69 1.37 1.52 0 .93-.59 2.32-.9 3.6-.25 1.07.54 1.95 1.59 1.95 1.91 0 3.19-2.46 3.19-5.37 0-2.22-1.49-3.89-4.19-3.89-3.06 0-4.96 2.28-4.96 4.82 0 .87.25 1.49.65 1.96.18.22.2.31.13.56-.05.18-.16.62-.2.79-.06.25-.25.34-.47.25-1.32-.54-1.93-2-1.93-3.63 0-2.69 2.26-5.93 6.75-5.93 3.62 0 5.99 2.62 5.99 5.44 0 3.73-2.07 6.52-5.12 6.52-1.02 0-1.98-.55-2.31-1.18l-.63 2.46c-.23.88-.84 1.98-1.25 2.65.94.29 1.94.45 2.97.45 5.52 0 10-4.48 10-10S17.52 2 12 2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Links -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Empresa</h4>
+                    <ul class="footer__links">
+                        <li><a href="#">Nuestra historia</a></li>
+                        <li><a href="#">Equipo</a></li>
+                        <li><a href="#">Trabaja con nosotros</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3: Productos -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Productos</h4>
+                    <ul class="footer__links">
+                        <li><a href="#">Chocolates</a></li>
+                        <li><a href="#">Gomitas</a></li>
+                        <li><a href="#">Caramelos</a></li>
+                        <li><a href="#">Macarons</a></li>
+                        <li><a href="#">Cajas regalo</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 4: Contacto -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Contacto</h4>
+                    <ul class="footer__links footer__links--contact">
+                        <li>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            Cra 43A #1-50, Medellín
+                        </li>
+                        <li>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z" />
+                            </svg>
+                            +57 311 222 3344
+                        </li>
+                        <li>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            hola@dulcepasion.co
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p>© 2026 DulcePasión. Todos los derechos reservados.</p>
+                <div class="footer__bottom-links">
+                    <a href="#">Política de privacidad</a>
+                    <a href="#">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ── Cargar productos desde la BD ──────────────────────────────
+        let allProducts = [];
+
+        async function loadProducts() {
+            try {
+                const res = await fetch('http://localhost:3000/api/products/public');
+                const data = await res.json();
+                if (data.ok) {
+                    allProducts = data.products;
+                    renderProductGrid(allProducts);
+                }
+            } catch (err) {
+                console.error('Error cargando productos:', err);
+            }
+        }
+
+        const EMOJI_MAP = {
+            'Chocolatería': '🍫', 'Confitería': '🍬', 'Artesanal': '🍭',
+            'Pastelería': '🧁', 'Premium': '🍯', 'Regalos': '🎀',
+        };
+
+        function renderProductGrid(products) {
+            const grid = document.querySelector('.products__grid');
+            if (!grid) return;
+
+            if (!products.length) {
+                grid.innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--color-text-muted);">
+                No se encontraron productos.
+            </div>`;
+                return;
+            }
+
+            grid.innerHTML = products.map((p, i) => {
+                const emoji = EMOJI_MAP[p.categoria] || '🍬';
+                const badge = i === 0
+                    ? '<span class="product-card__badge">Popular</span>'
+                    : p.stock === 0
+                        ? '<span class="product-card__badge product-card__badge--sale">Agotado</span>'
+                        : '';
+                return `
+        <article class="product-card" data-id="${p.id_producto}">
+            <div class="product-card__image-wrap">
+                <div class="product-card__image">${emoji}</div>
+                ${badge}
+                <button class="product-card__wishlist" aria-label="Agregar a favoritos">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="product-card__body">
+                <span class="product-card__category">${p.categoria || 'General'}</span>
+                <h3 class="product-card__name">${p.nombre}</h3>
+                <p class="product-card__desc">${p.descripcion || ''}</p>
+                <div class="product-card__footer">
+                    <span class="product-card__price">$${Number(p.precio).toLocaleString('es-CO')}</span>
+                    <button class="product-card__btn" onclick="addToCart(${p.id_producto})"
+                        ${p.stock === 0 ? 'disabled style="opacity:.5;cursor:not-allowed;"' : ''}>
+                        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        ${p.stock === 0 ? 'Agotado' : 'Agregar'}
+                    </button>
+                </div>
+            </div>
+        </article>`;
+            }).join('');
+        }
+
+        // ── Búsqueda inline ───────────────────────────────────────────
+        const searchBtn = document.getElementById('search-btn');
+        const searchInputWrap = document.getElementById('searchInputWrap');
+        const searchInput = document.getElementById('searchInput');
+        const searchClose = document.getElementById('searchClose');
+
+        // Elemento de info de resultados (agrégalo en el HTML justo antes del grid)
+        let searchInfoEl = document.querySelector('.products__section-info');
+        if (!searchInfoEl) {
+            searchInfoEl = document.createElement('div');
+            searchInfoEl.className = 'products__section-info';
+            const grid = document.querySelector('.products__grid');
+            grid.parentNode.insertBefore(searchInfoEl, grid);
+        }
+
+        function openSearch() {
+            searchInputWrap.classList.add('open');
+            setTimeout(() => searchInput.focus(), 350);
+            // Scroll suave a productos
+            document.getElementById('productos')
+                .scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeSearch() {
+            searchInputWrap.classList.remove('open');
+            searchInput.value = '';
+            renderProductGrid(allProducts);
+            searchInfoEl.textContent = '';
+        }
+
+        searchBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (searchInputWrap.classList.contains('open')) {
+                closeSearch();
+            } else {
+                openSearch();
+            }
+        });
+
+        searchClose.addEventListener('click', closeSearch);
+
+        // Filtro automático al digitar
+        searchInput.addEventListener('input', function () {
+            const q = this.value.trim().toLowerCase();
+            if (!q) {
+                renderProductGrid(allProducts);
+                searchInfoEl.textContent = '';
+                return;
+            }
+            const filtered = allProducts.filter(p =>
+                p.nombre.toLowerCase().includes(q) ||
+                (p.descripcion || '').toLowerCase().includes(q) ||
+                (p.categoria || '').toLowerCase().includes(q)
+            );
+            renderProductGrid(filtered);
+            searchInfoEl.textContent = filtered.length
+                ? `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''} para "${this.value.trim()}"`
+                : `Sin resultados para "${this.value.trim()}"`;
+        });
+
+        // Cerrar búsqueda al presionar Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && searchInputWrap.classList.contains('open')) closeSearch();
+        });
+
+        // Cerrar si se hace click fuera
+        document.addEventListener('click', (e) => {
+            const searchBox = document.getElementById('searchBox');
+            if (!searchBox.contains(e.target)) closeSearch();
+        });
+
+        // ── Carrito (estado global) ───────────────────────────────────
+        let cart = JSON.parse(localStorage.getItem('dp_cart') || '[]');
+
+        function saveCart() {
+            localStorage.setItem('dp_cart', JSON.stringify(cart));
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const total = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.querySelectorAll('.navbar__cart-badge').forEach(el => {
+                el.textContent = total;
+                el.style.display = total > 0 ? 'flex' : 'none';
+            });
+        }
+
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id_producto === productId);
+            if (!product) return;
+            const existing = cart.find(i => i.id === productId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({
+                    id: product.id_producto,
+                    name: product.nombre,
+                    price: parseFloat(product.precio),
+                    emoji: EMOJI_MAP[product.categoria] || '🍬',
+                    qty: 1
+                });
+            }
+            saveCart();
+            openCart();
+            showAddedFeedback(productId);
+        }
+
+        function showAddedFeedback(productId) {
+            const card = document.querySelector(`[data-id="${productId}"] .product-card__btn`);
+            if (!card) return;
+            const orig = card.innerHTML;
+            card.innerHTML = '✅ Agregado';
+            card.style.background = 'var(--color-accent)';
+            card.style.color = 'white';
+            setTimeout(() => {
+                card.innerHTML = orig;
+                card.style.background = '';
+                card.style.color = '';
+            }, 1200);
+        }
+
+        // ── Hamburger menu ────────────────────────────────────────────
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('navbar__nav--open');
+            hamburger.classList.toggle('navbar__hamburger--active');
+        });
+        navMenu.querySelectorAll('.navbar__nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('navbar__nav--open');
+                hamburger.classList.remove('navbar__hamburger--active');
+            });
+        });
+
+        // ── Navbar scroll ─────────────────────────────────────────────
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').classList.toggle('navbar--scrolled', window.scrollY > 20);
+            updateActiveLink();
+        });
+
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.navbar__nav-link');
+        const navbarH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-h')) || 72;
+
+        function updateActiveLink() {
+            let currentId = '';
+            sections.forEach(section => {
+                if (section.getBoundingClientRect().top <= navbarH + 20) currentId = section.id;
+            });
+            navLinks.forEach(link => {
+                link.classList.toggle('navbar__nav-link--active',
+                    link.getAttribute('href') === '#' + currentId);
+            });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                e.preventDefault();
+                window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - navbarH, behavior: 'smooth' });
+            });
+        });
+
+        // ── Init ──────────────────────────────────────────────────────
+        loadProducts();
+        updateCartBadge();
+    </script>
+
+    <!-- ===================== CARRITO FLOTANTE ===================== -->
+    <div id="cartOverlay"
+        style="display:none;position:fixed;inset:0;background:rgba(58,40,48,.45);z-index:300;backdrop-filter:blur(3px);"
+        onclick="closeCart()"></div>
+
+    <div id="cartDrawer" style="
+    position:fixed;top:0;right:-420px;width:420px;max-width:100vw;height:100vh;
+    background:#fff8f9;z-index:301;display:flex;flex-direction:column;
+    box-shadow:-8px 0 40px rgba(200,100,130,.18);transition:right .35s cubic-bezier(.4,0,.2,1);
+    font-family:'DM Sans',sans-serif;">
+
+        <!-- Header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;
+                padding:20px 24px;border-bottom:1px solid #f0dde3;background:#fff;">
+            <div>
+                <div style="font-size:1.1rem;font-weight:700;color:#3a2830;">🛍️ Mi carrito</div>
+                <div style="font-size:.75rem;color:#8a6872;" id="cartCount">0 productos</div>
+            </div>
+            <button onclick="closeCart()" style="
+            width:36px;height:36px;border-radius:50%;border:none;
+            background:#fde8ef;color:#c4637a;font-size:1.2rem;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;">✕</button>
+        </div>
+
+        <!-- Items -->
+        <div id="cartItems"
+            style="flex:1;overflow-y:auto;padding:16px 24px;display:flex;flex-direction:column;gap:12px;"></div>
+
+        <!-- Footer -->
+        <div style="padding:20px 24px;border-top:1px solid #f0dde3;background:#fff;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <span style="font-size:.9rem;color:#8a6872;">Subtotal</span>
+                <span style="font-size:1.2rem;font-weight:700;color:#c4637a;font-family:'Playfair Display',serif;"
+                    id="cartTotal">$0</span>
+            </div>
+            <div style="display:flex;gap:10px;">
+                <button onclick="clearCart()" style="
+                flex:1;padding:12px;border-radius:999px;border:2px solid #f0dde3;
+                background:transparent;color:#8a6872;font-size:.85rem;font-weight:600;cursor:pointer;">
+                    Vaciar
+                </button>
+                <button onclick="checkout()" style="
+                flex:2;padding:12px;border-radius:999px;border:none;
+                background:linear-gradient(135deg,#e8889f,#e07090);color:#fff;
+                font-size:.9rem;font-weight:700;cursor:pointer;
+                box-shadow:0 4px 20px rgba(224,112,144,.35);">
+                    💳 Pagar ahora
+                </button>
+            </div>
+            <p style="font-size:.72rem;color:#b89ba3;text-align:center;margin-top:10px;">
+                Envío gratis en pedidos desde $80.000
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 12px;
+            border: 1px solid #f0dde3;
+        }
+
+        .cart-item__emoji {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #fde8ef, #f7c5d0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .cart-item__info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-item__name {
+            font-size: .88rem;
+            font-weight: 700;
+            color: #3a2830;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cart-item__price {
+            font-size: .8rem;
+            color: #c4637a;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .cart-item__qty {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fde8ef;
+            border-radius: 999px;
+            padding: 4px 8px;
+        }
+
+        .cart-item__qty button {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: none;
+            background: #e8889f;
+            color: #fff;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .cart-item__qty span {
+            font-size: .85rem;
+            font-weight: 700;
+            color: #3a2830;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .cart-item__delete {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: #fff0f0;
+            color: #c45a5a;
+            font-size: .85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cart-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 12px;
+            color: #b89ba3;
+        }
+    </style>
+
+    <script>
+        function openCart() {
+            document.getElementById('cartDrawer').style.right = '0';
+            document.getElementById('cartOverlay').style.display = 'block';
+            renderCart();
+        }
+        function closeCart() {
+            document.getElementById('cartDrawer').style.right = '-420px';
+            document.getElementById('cartOverlay').style.display = 'none';
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const countEl = document.getElementById('cartCount');
+            const totalEl = document.getElementById('cartTotal');
+
+            const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+            const totalAmt = cart.reduce((s, i) => s + i.qty * i.price, 0);
+
+            countEl.textContent = `${totalQty} producto${totalQty !== 1 ? 's' : ''}`;
+            totalEl.textContent = '$' + totalAmt.toLocaleString('es-CO');
+
+            if (!cart.length) {
+                container.innerHTML = `
+            <div class="cart-empty">
+                <span style="font-size:3rem;">🛒</span>
+                <span style="font-weight:600;">Tu carrito está vacío</span>
+                <span style="font-size:.82rem;">Agrega productos para continuar</span>
+            </div>`;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <div class="cart-item__emoji">${item.emoji}</div>
+            <div class="cart-item__info">
+                <div class="cart-item__name">${item.name}</div>
+                <div class="cart-item__price">$${(item.price * item.qty).toLocaleString('es-CO')}</div>
+            </div>
+            <div class="cart-item__qty">
+                <button onclick="changeQty(${item.id}, -1)">−</button>
+                <span>${item.qty}</span>
+                <button onclick="changeQty(${item.id}, +1)">+</button>
+            </div>
+            <button class="cart-item__delete" onclick="removeFromCart(${item.id})" title="Eliminar">🗑</button>
+        </div>
+    `).join('');
+        }
+
+        function changeQty(id, dir) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.qty += dir;
+            if (item.qty <= 0) removeFromCart(id);
+            else { saveCart(); renderCart(); }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            saveCart();
+            renderCart();
+        }
+
+        function clearCart() {
+            if (!cart.length) return;
+            if (confirm('¿Vaciar el carrito?')) {
+                cart = [];
+                saveCart();
+                renderCart();
+            }
+        }
+
+        function checkout() {
+            if (!cart.length) {
+                alert('Tu carrito está vacío 🛒');
+                return;
+            }
+            const total = cart.reduce((s, i) => s + i.qty * i.price, 0);
+            alert(`✅ Pedido por $${total.toLocaleString('es-CO')} procesado.\n¡Gracias por tu compra en DulcePasión! 🍬`);
+            cart = [];
+            saveCart();
+            renderCart();
+            closeCart();
+        }
+
+        // Abrir carrito al hacer clic en el ícono del navbar
+        document.querySelector('.navbar__action-btn--cart').addEventListener('click', openCart);
+    </script>
+
+</body>
+
+</html>

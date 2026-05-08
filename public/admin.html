@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Admin</title>
+    <link rel="stylesheet" href="./admin.css">
+</head>
+
+<body>
+
+    <!-- ======================== TOAST CONTAINER ======================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ======================== LAYOUT ======================== -->
+    <div class="admin-layout">
+
+        <!-- ====== SIDEBAR ====== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__brand">
+                <a href="index.html" class="sidebar__logo">
+                    <span class="sidebar__logo-icon">✦</span>
+                    Dulce<em>Pasión</em>
+                </a>
+                <span class="sidebar__badge">🔐 Panel Admin</span>
+            </div>
+
+            <nav class="sidebar__nav">
+                <p class="sidebar__section-label">Principal</p>
+
+                <button class="sidebar__link sidebar__link--active" data-view="dashboard">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Dashboard
+                </button>
+
+                <p class="sidebar__section-label">Catálogo</p>
+
+                <button class="sidebar__link" data-view="products">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 10V7" />
+                    </svg>
+                    Productos
+                    <span class="sidebar__link-badge" id="productCountBadge">0</span>
+                </button>
+
+                <p class="sidebar__section-label">Usuarios</p>
+
+                <button class="sidebar__link" data-view="clients">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Clientes
+                    <span class="sidebar__link-badge" id="clientCountBadge">0</span>
+                </button>
+
+                <p class="sidebar__section-label">Sistema</p>
+
+                <button class="sidebar__link" onclick="showToast('⚙️ Configuración próximamente', 'info')">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    Configuración
+                </button>
+
+                <a href="index.html" class="sidebar__link">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Ver tienda
+                </a>
+
+                <button class="logout-btn" id="logoutBtn">Cerrar sesión</button>
+            </nav>
+
+
+            <div class="sidebar__footer">
+                <div class="sidebar__user">
+                    <div class="sidebar__avatar">AD</div>
+                    <div class="sidebar__user-info">
+                        <div class="sidebar__user-name">Administrador</div>
+                        <div class="sidebar__user-role">admin@dulcepasion.co</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ====== MAIN ====== -->
+        <div class="admin-main">
+
+            <!-- TOP BAR -->
+            <div class="admin-topbar">
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menú">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <div class="admin-topbar__title" id="topbarTitle">
+                    Dashboard
+                    <span class="admin-topbar__subtitle" id="topbarSubtitle">Resumen general del sistema</span>
+                </div>
+
+                <div class="admin-topbar__actions">
+                    <button class="admin-topbar__icon-btn" aria-label="Notificaciones"
+                        onclick="showToast('🔔 No tienes notificaciones nuevas', 'info')">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span class="admin-topbar__notif-dot"></span>
+                    </button>
+                    <button class="admin-topbar__user-chip" onclick="showToast('👋 ¡Hola, Administrador!', 'success')">
+                        <div class="admin-topbar__chip-avatar">AD</div>
+                        Administrador
+                    </button>
+                </div>
+            </div>
+
+            <!-- ======================== CONTENT ======================== -->
+            <div class="admin-content">
+
+                <!-- ======== VIEW: DASHBOARD ======== -->
+                <div class="admin-view admin-view--active" id="view-dashboard">
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card__header">
+                                <div class="stat-card__icon stat-card__icon--pink">🍬</div>
+                                <span class="stat-card__trend stat-card__trend--up">+12%</span>
+                            </div>
+                            <div class="stat-card__value" id="dash-total-products">0</div>
+                            <div class="stat-card__label">Productos activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__header">
+                                <div class="stat-card__icon stat-card__icon--blue">👥</div>
+                                <span class="stat-card__trend stat-card__trend--up">+8%</span>
+                            </div>
+                            <div class="stat-card__value" id="dash-total-clients">0</div>
+                            <div class="stat-card__label">Clientes registrados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__header">
+                                <div class="stat-card__icon stat-card__icon--green">💰</div>
+                                <span class="stat-card__trend stat-card__trend--up">+23%</span>
+                            </div>
+                            <div class="stat-card__value">$4.2M</div>
+                            <div class="stat-card__label">Ventas este mes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__header">
+                                <div class="stat-card__icon stat-card__icon--yellow">📦</div>
+                                <span class="stat-card__trend stat-card__trend--down">-3%</span>
+                            </div>
+                            <div class="stat-card__value">47</div>
+                            <div class="stat-card__label">Pedidos pendientes</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <!-- Ventas por mes -->
+                        <div class="dash-card">
+                            <div class="dash-card__title">
+                                Ventas últimos 6 meses
+                                <span class="dash-card__tag">COP (miles)</span>
+                            </div>
+                            <div class="bar-chart" id="salesChart"></div>
+                        </div>
+
+                        <!-- Top productos -->
+                        <div class="dash-card">
+                            <div class="dash-card__title">
+                                Productos más vendidos
+                                <span class="dash-card__tag">Top 5</span>
+                            </div>
+                            <div class="top-list" id="topProductsList"></div>
+                        </div>
+                    </div>
+
+                </div><!-- /dashboard -->
+
+                <!-- ======== VIEW: PRODUCTS ======== -->
+                <div class="admin-view" id="view-products">
+
+                    <div class="section-top">
+                        <div class="section-top__left">
+                            <span class="section-top__title">Gestión de Productos</span>
+                            <span class="section-top__desc">Agrega, edita y elimina los productos de tu catálogo</span>
+                        </div>
+                        <div class="section-top__actions">
+                            <button class="btn btn--primary" id="openAddProduct">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Agregar producto
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="search-box">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path stroke-linecap="round" d="m21 21-4.35-4.35" />
+                            </svg>
+                            <input type="text" placeholder="Buscar producto..." id="productSearch"
+                                oninput="filterProducts()" />
+                        </div>
+                        <select class="filter-select" id="productCatFilter" onchange="filterProducts()">
+                            <option value="">Todas las categorías</option>
+                            <option value="Chocolatería">Chocolatería</option>
+                            <option value="Confitería">Confitería</option>
+                            <option value="Artesanal">Artesanal</option>
+                            <option value="Pastelería">Pastelería</option>
+                            <option value="Premium">Premium</option>
+                            <option value="Regalos">Regalos</option>
+                        </select>
+                        <select class="filter-select" id="productStockFilter" onchange="filterProducts()">
+                            <option value="">Todo el stock</option>
+                            <option value="active">Disponible</option>
+                            <option value="low">Stock bajo</option>
+                            <option value="out">Sin stock</option>
+                        </select>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                            </tbody>
+                        </table>
+                        <div id="productsEmpty" class="empty-state" style="display:none;">
+                            <div class="empty-state__emoji">🍬</div>
+                            <div class="empty-state__title">No hay productos</div>
+                            <div class="empty-state__text">Agrega tu primer producto para empezar.</div>
+                        </div>
+                        <div class="pagination" id="productsPagination">
+                            <span class="pagination__info" id="productsPaginationInfo"></span>
+                            <div class="pagination__btns">
+                                <button class="pagination__btn" onclick="changeProductPage(-1)">‹</button>
+                                <button class="pagination__btn pagination__btn--active" id="productPageNum">1</button>
+                                <button class="pagination__btn" onclick="changeProductPage(1)">›</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /products -->
+
+                <!-- ======== VIEW: CLIENTS ======== -->
+                <div class="admin-view" id="view-clients">
+
+                    <div class="section-top">
+                        <div class="section-top__left">
+                            <span class="section-top__title">Gestión de Clientes</span>
+                            <span class="section-top__desc">Administra los clientes registrados en el sistema</span>
+                        </div>
+                        <div class="section-top__actions">
+                            <button class="btn btn--primary" id="openAddClient">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Agregar cliente
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="search-box">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path stroke-linecap="round" d="m21 21-4.35-4.35" />
+                            </svg>
+                            <input type="text" placeholder="Buscar cliente..." id="clientSearch"
+                                oninput="filterClients()" />
+                        </div>
+                        <select class="filter-select" id="clientRolFilter" onchange="filterClients()">
+                            <option value="">Todos los roles</option>
+                            <option value="VIP">VIP</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Nuevo">Nuevo</option>
+                        </select>
+                        <select class="filter-select" id="clientStatusFilter" onchange="filterClients()">
+                            <option value="">Todos los estados</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Ciudad</th>
+                                    <th>Pedidos</th>
+                                    <th>Puntos</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientsTableBody">
+                            </tbody>
+                        </table>
+                        <div id="clientsEmpty" class="empty-state" style="display:none;">
+                            <div class="empty-state__emoji">👥</div>
+                            <div class="empty-state__title">No hay clientes</div>
+                            <div class="empty-state__text">Agrega tu primer cliente para empezar.</div>
+                        </div>
+                        <div class="pagination" id="clientsPagination">
+                            <span class="pagination__info" id="clientsPaginationInfo"></span>
+                            <div class="pagination__btns">
+                                <button class="pagination__btn" onclick="changeClientPage(-1)">‹</button>
+                                <button class="pagination__btn pagination__btn--active" id="clientPageNum">1</button>
+                                <button class="pagination__btn" onclick="changeClientPage(1)">›</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /clients -->
+
+            </div><!-- /admin-content -->
+        </div><!-- /admin-main -->
+    </div><!-- /admin-layout -->
+
+
+    <!-- ======================== MODAL: PRODUCTO ======================== -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal__header">
+                <div>
+                    <div class="modal__title" id="productModalTitle">Agregar producto</div>
+                    <div class="modal__subtitle">Completa la información del producto</div>
+                </div>
+                <button class="modal__close" id="closeProductModal">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal__body">
+                <div class="form-grid">
+                    <div class="form-field form-field--full">
+                        <label class="form-label">Nombre del producto *</label>
+                        <input type="text" class="form-input" id="pName" placeholder="Ej. Trufas Belgas Premium" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Categoría *</label>
+                        <select class="form-select" id="pCategory">
+                            <option value="">Seleccionar...</option>
+                            <option>Chocolatería</option>
+                            <option>Confitería</option>
+                            <option>Artesanal</option>
+                            <option>Pastelería</option>
+                            <option>Premium</option>
+                            <option>Regalos</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Precio (COP) *</label>
+                        <input type="number" class="form-input" id="pPrice" placeholder="Ej. 58000" min="0" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Stock *</label>
+                        <input type="number" class="form-input" id="pStock" placeholder="Ej. 50" min="0" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" id="pStatus">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="form-field form-field--full">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-textarea" id="pDesc"
+                            placeholder="Descripción breve del producto..."></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Emoji / Icono</label>
+                        <input type="text" class="form-input" id="pEmoji" placeholder="🍫" maxlength="4" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">SKU / Código</label>
+                        <input type="text" class="form-input" id="pSku" placeholder="Ej. DP-001" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--outline" id="cancelProductModal">Cancelar</button>
+                <button class="btn btn--primary" id="saveProduct">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Guardar producto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== MODAL: CLIENTE ======================== -->
+    <div class="modal-overlay" id="clientModal">
+        <div class="modal">
+            <div class="modal__header">
+                <div>
+                    <div class="modal__title" id="clientModalTitle">Agregar cliente</div>
+                    <div class="modal__subtitle">Completa la información del cliente</div>
+                </div>
+                <button class="modal__close" id="closeClientModal">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal__body">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label class="form-label">Nombre *</label>
+                        <input type="text" class="form-input" id="cName" placeholder="Ej. Valentina Torres" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Apellido *</label>
+                        <input type="text" class="form-input" id="cLastName" placeholder="Ej. Restrepo" />
+                    </div>
+                    <div class="form-field form-field--full">
+                        <label class="form-label">Correo electrónico *</label>
+                        <input type="email" class="form-input" id="cEmail" placeholder="valentina@correo.com" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" class="form-input" id="cPhone" placeholder="+57 311 234 5678" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Ciudad</label>
+                        <input type="text" class="form-input" id="cCity" placeholder="Ej. Medellín" />
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Tipo de cliente</label>
+                        <select class="form-select" id="cRol">
+                            <option value="Nuevo">Nuevo</option>
+                            <option value="Regular">Regular</option>
+                            <option value="VIP">VIP</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" id="cStatus">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="form-field form-field--full">
+                        <label class="form-label">Notas internas</label>
+                        <textarea class="form-textarea" id="cNotes"
+                            placeholder="Observaciones sobre el cliente..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--outline" id="cancelClientModal">Cancelar</button>
+                <button class="btn btn--primary" id="saveClient">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Guardar cliente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== MODAL: CONFIRM DELETE ======================== -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal confirm-modal">
+            <div class="modal__body" style="padding: 28px;">
+                <div class="confirm-icon">🗑️</div>
+                <div class="confirm-title" id="confirmTitle">¿Eliminar elemento?</div>
+                <p class="confirm-text" id="confirmText">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn--outline" id="cancelConfirm">Cancelar</button>
+                <button class="btn btn--danger" id="doConfirm">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Sí, eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== SIDEBAR OVERLAY (mobile) ======================== -->
+    <div id="sidebarOverlay"
+        style="display:none;position:fixed;inset:0;background:rgba(58,40,48,.4);z-index:150;backdrop-filter:blur(2px);"
+        onclick="closeSidebar()"></div>
+
+
+    <script src="./app.js"></script>
+</body>
+
+</html>
