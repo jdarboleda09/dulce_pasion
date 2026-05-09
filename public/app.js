@@ -22,34 +22,30 @@ function getToken() {
     return localStorage.getItem('token');
 }
 
-async function apiFetch(endpoint) {
+async function apiFetch(endpoint, options = {}) {
     const res = await fetch(API + endpoint, {
-        headers: { 'Authorization': 'Bearer ' + getToken() }
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getToken(),
+            ...(options.headers || {})
+        }
     });
-    if (res.status === 401 || res.status === 403) {
-        logout();
-        return null;
-    }
+    if (res.status === 401 || res.status === 403) { logout(); return null; }
     return res.json();
 }
 
-// Mantén estas funciones para compatibilidad con modales
-// (los modales siguen usando localStorage temporalmente)
-function getProducts() {
-    try { return JSON.parse(localStorage.getItem('dp_products') || '[]'); }
-    catch { return []; }
-}
-function saveProducts(arr) { localStorage.setItem('dp_products', JSON.stringify(arr)); }
-function getClients() {
-    try { return JSON.parse(localStorage.getItem('dp_clients') || '[]'); }
-    catch { return []; }
-}
-function saveClients(arr) { localStorage.setItem('dp_clients', JSON.stringify(arr)); }
+// Cache local para renders rápidos
+let _products = [];
+let _clients = [];
+
+function getProducts() { return _products; }
+function getClients() { return _clients; }
 
 // ──────────────────────────────────────────────
-// 3. SEED (deshabilitado — datos vienen de la BD)
+// 3. SEED — no necesaria, datos vienen de la BD
 // ──────────────────────────────────────────────
-function seed() { /* no-op */ }
+function seed() { }
 
 // ──────────────────────────────────────────────
 // 4. NAVEGACIÓN
@@ -87,51 +83,22 @@ document.querySelectorAll('.sidebar__link[data-view]').forEach(btn => {
 // 5. DASHBOARD
 // ──────────────────────────────────────────────
 async function renderDashboard() {
-    // Cargar productos y clientes desde la BD
     const [prodData, clientData] = await Promise.all([
         apiFetch('/products'),
         apiFetch('/clients')
     ]);
 
-    const products = prodData?.products || [];
-    const clients = clientData?.clients || [];
+    _products = prodData?.products || [];
+    _clients = clientData?.clients || [];
 
-    // Sincronizar localStorage para que los modales funcionen
-    saveProducts(products.map(p => ({
-        id: p.id_producto,
-        name: p.nombre,
-        category: p.categoria || 'Sin categoría',
-        price: p.precio,
-        stock: p.stock,          // ← ahora viene de inventario
-        status: p.estado,
-        desc: p.descripcion || '',
-        emoji: '🍬',
-        sku: ''
-    })));
-
-    saveClients(clients.map(c => ({
-        id: c.id_cliente,
-        name: c.contacto?.split(' ')[0] || c.empresa,
-        lastName: c.contacto?.split(' ').slice(1).join(' ') || '',
-        email: c.email,
-        phone: c.telefono || '',
-        city: c.direccion || '',
-        rol: c.tipo === 'Corporativo' ? 'VIP' : c.tipo === 'Mayorista' ? 'Regular' : 'Nuevo',
-        status: c.estado,
-        orders: 0,
-        points: 0,
-        notes: ''
-    })));
-
-    // Actualizar contadores del dashboard
-    const activeProducts = products.filter(p => p.estado === 'Activo').length;
-    const activeClients = clients.filter(c => c.estado === 'Activo').length;
+    const activeProducts = _products.filter(p => p.estado === 'Activo').length;
+    const activeClients = _clients.filter(c => c.estado === 'Activo').length;
 
     document.getElementById('dash-total-products').textContent = activeProducts;
     document.getElementById('dash-total-clients').textContent = activeClients;
     updateBadges();
 
-    // Bar chart (ventas ficticias — ajusta cuando tengas tabla de ventas)
+    // Bar chart
     const salesData = [
         { label: 'Dic', val: 78, accent: false },
         { label: 'Ene', val: 95, accent: false },
@@ -141,8 +108,7 @@ async function renderDashboard() {
         { label: 'May', val: 142, accent: true },
     ];
     const maxVal = Math.max(...salesData.map(d => d.val));
-    const chart = document.getElementById('salesChart');
-    chart.innerHTML = salesData.map(d => `
+    document.getElementById('salesChart').innerHTML = salesData.map(d => `
         <div class="bar-chart__bar-wrap">
             <div class="bar-chart__bar ${d.accent ? 'bar-chart__bar--accent' : ''}"
                  style="height:${Math.round((d.val / maxVal) * 100)}%"></div>
@@ -150,30 +116,24 @@ async function renderDashboard() {
         </div>
     `).join('');
 
-    // Top productos desde BD
-    const topProductsList = products.slice(0, 5);
-    const maxOrders = 100;
-    document.getElementById('topProductsList').innerHTML = topProductsList.length
-        ? topProductsList.map((p, i) => `
-            <div class="top-list-item">
-                <div class="top-list-item__rank ${i === 0 ? 'top-list-item__rank--gold' : ''}">${i + 1}</div>
-                <div class="top-list-item__name">${p.nombre}</div>
-                <div class="top-list-item__bar">
-                    <div class="top-list-item__progress">
-                        <div class="top-list-item__fill" style="width:${Math.round(((5 - i) / 5) * 100)}%"></div>
-                    </div>
+    // Top productos
+    document.getElementById('topProductsList').innerHTML = _products.slice(0, 5).map((p, i) => `
+        <div class="top-list-item">
+            <div class="top-list-item__rank ${i === 0 ? 'top-list-item__rank--gold' : ''}">${i + 1}</div>
+            <div class="top-list-item__name">${p.nombre}</div>
+            <div class="top-list-item__bar">
+                <div class="top-list-item__progress">
+                    <div class="top-list-item__fill" style="width:${Math.round(((5 - i) / 5) * 100)}%"></div>
                 </div>
-                <div class="top-list-item__val">${Math.round(((5 - i) / 5) * 100)}%</div>
             </div>
-        `).join('')
-        : '<p style="color:var(--color-text-muted);font-size:.85rem;padding:12px 0;">Sin productos registrados</p>';
+            <div class="top-list-item__val">${Math.round(((5 - i) / 5) * 100)}%</div>
+        </div>
+    `).join('') || '<p style="color:var(--color-text-muted);font-size:.85rem;padding:12px 0;">Sin productos</p>';
 }
 
 function updateBadges() {
-    const products = getProducts();
-    const clients = getClients();
-    document.getElementById('productCountBadge').textContent = products.length;
-    document.getElementById('clientCountBadge').textContent = clients.length;
+    document.getElementById('productCountBadge').textContent = _products.length;
+    document.getElementById('clientCountBadge').textContent = _clients.length;
 }
 
 // ──────────────────────────────────────────────
@@ -194,14 +154,18 @@ function getFilteredProducts() {
     });
 }
 
-function renderProducts() {
+async function renderProducts() {
+    // Cargar desde API si el cache está vacío
+    if (!_products.length) {
+        const data = await apiFetch('/products');
+        _products = data?.products || [];
+    }
+
     const all = getFilteredProducts();
     const start = (productPage - 1) * ITEMS_PER_PAGE;
     const paged = all.slice(start, start + ITEMS_PER_PAGE);
     const tbody = document.getElementById('productsTableBody');
     const empty = document.getElementById('productsEmpty');
-    const pgInfo = document.getElementById('productsPaginationInfo');
-    const pgNum = document.getElementById('productPageNum');
 
     updateBadges();
 
@@ -214,45 +178,53 @@ function renderProducts() {
 
     empty.style.display = 'none';
     document.getElementById('productsPagination').style.display = 'flex';
-    pgInfo.textContent = `Mostrando ${start + 1}–${Math.min(start + ITEMS_PER_PAGE, all.length)} de ${all.length} productos`;
-    pgNum.textContent = productPage;
+    document.getElementById('productsPaginationInfo').textContent =
+        `Mostrando ${start + 1}–${Math.min(start + ITEMS_PER_PAGE, all.length)} de ${all.length} productos`;
+    document.getElementById('productPageNum').textContent = productPage;
 
     tbody.innerHTML = paged.map(p => {
-        const stockBadge = p.stock === 0
+        const stock = Number(p.stock);
+        const stockBadge = stock === 0
             ? '<span class="badge badge--out">Sin stock</span>'
-            : p.stock <= 10
-                ? `<span class="badge badge--low">⚠ Bajo (${p.stock})</span>`
-                : `<span style="font-size:.84rem;color:var(--color-text-muted);">${p.stock}</span>`;
-
-        const statusBadge = p.status === 'Activo'
+            : stock <= 10
+                ? `<span class="badge badge--low">⚠ Bajo (${stock})</span>`
+                : `<span style="font-size:.84rem;color:var(--color-text-muted);">${stock}</span>`;
+        const statusBadge = p.estado === 'Activo'
             ? '<span class="badge badge--active">● Activo</span>'
             : '<span class="badge badge--inactive">● Inactivo</span>';
 
         return `<tr>
-      <td>
-        <div class="table-product-cell">
-          <div class="table-product-thumb">${p.emoji || '🍬'}</div>
-          <div class="table-product-info">
-            <span class="table-product-name">${p.name}</span>
-            <span class="table-product-sku">${p.sku || '—'}</span>
-          </div>
-        </div>
-      </td>
-      <td><span style="font-size:.8rem;color:var(--color-text-muted);">${p.category}</span></td>
-      <td><span class="price-text">$${Number(p.price).toLocaleString('es-CO')}</span></td>
-      <td>${stockBadge}</td>
-      <td>${statusBadge}</td>
-      <td>
-        <div class="table-actions">
-          <button class="table-action-btn" title="Editar" onclick="openEditProduct(${p.id})">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-          </button>
-          <button class="table-action-btn table-action-btn--delete" title="Eliminar" onclick="confirmDeleteProduct(${p.id})">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-          </button>
-        </div>
-      </td>
-    </tr>`;
+            <td>
+                <div class="table-product-cell">
+                    <div class="table-product-thumb">🍬</div>
+                    <div class="table-product-info">
+                        <span class="table-product-name">${p.nombre}</span>
+                        <span class="table-product-sku">${p.categoria || '—'}</span>
+                    </div>
+                </div>
+            </td>
+            <td><span style="font-size:.8rem;color:var(--color-text-muted);">${p.categoria || '—'}</span></td>
+            <td><span class="price-text">$${Number(p.precio).toLocaleString('es-CO')}</span></td>
+            <td>${stockBadge}</td>
+            <td>${statusBadge}</td>
+            <td>
+                <div class="table-actions">
+                    <button class="table-action-btn" title="Editar" onclick="openEditProduct(${p.id_producto})">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                    </button>
+                    <button class="table-action-btn table-action-btn--delete" title="Eliminar"
+                        onclick="confirmDeleteProduct(${p.id_producto})">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </td>
+        </tr>`;
     }).join('');
 }
 
@@ -273,27 +245,37 @@ function clearProductForm() {
     });
 }
 
-function openAddProduct() {
+async function openAddProduct() {
     editingProductId = null;
     document.getElementById('productModalTitle').textContent = 'Agregar producto';
     clearProductForm();
+    await loadCategoriasSelect();
     document.getElementById('productModal').classList.add('modal-overlay--visible');
 }
 
-function openEditProduct(id) {
-    const p = getProducts().find(x => x.id === id);
+async function openEditProduct(id) {
+    const p = _products.find(x => x.id_producto === id);
     if (!p) return;
     editingProductId = id;
     document.getElementById('productModalTitle').textContent = 'Editar producto';
-    document.getElementById('pName').value = p.name;
-    document.getElementById('pCategory').value = p.category;
-    document.getElementById('pPrice').value = p.price;
+    await loadCategoriasSelect();
+    document.getElementById('pName').value = p.nombre;
+    document.getElementById('pCategory').value = p.id_categoria;
+    document.getElementById('pPrice').value = p.precio;
     document.getElementById('pStock').value = p.stock;
-    document.getElementById('pStatus').value = p.status;
-    document.getElementById('pDesc').value = p.desc || '';
-    document.getElementById('pEmoji').value = p.emoji || '';
-    document.getElementById('pSku').value = p.sku || '';
+    document.getElementById('pStatus').value = p.estado;
+    document.getElementById('pDesc').value = p.descripcion || '';
     document.getElementById('productModal').classList.add('modal-overlay--visible');
+}
+
+async function loadCategoriasSelect() {
+    const data = await apiFetch('/products/categorias');
+    if (!data?.categorias) return;
+    const select = document.getElementById('pCategory');
+    select.innerHTML = '<option value="">Seleccionar...</option>' +
+        data.categorias.map(c =>
+            `<option value="${c.id_categoria}">${c.nombre}</option>`
+        ).join('');
 }
 
 function closeProductModal() {
@@ -301,46 +283,55 @@ function closeProductModal() {
     editingProductId = null;
 }
 
-function saveProduct() {
-    const name = document.getElementById('pName').value.trim();
-    const category = document.getElementById('pCategory').value;
-    const price = parseFloat(document.getElementById('pPrice').value);
+async function saveProduct() {
+    const nombre = document.getElementById('pName').value.trim();
+    const id_categoria = document.getElementById('pCategory').value;
+    const precio = parseFloat(document.getElementById('pPrice').value);
     const stock = parseInt(document.getElementById('pStock').value);
-    const status = document.getElementById('pStatus').value;
-    const desc = document.getElementById('pDesc').value.trim();
-    const emoji = document.getElementById('pEmoji').value.trim() || '🍬';
-    const sku = document.getElementById('pSku').value.trim();
+    const estado = document.getElementById('pStatus').value;
+    const descripcion = document.getElementById('pDesc').value.trim();
+    const costo = parseFloat(document.getElementById('pCost').value);
 
-    if (!name || !category || isNaN(price) || isNaN(stock)) {
+    if (!nombre || !id_categoria || isNaN(precio)) {
         showToast('⚠️ Completa los campos obligatorios', 'error');
         return;
     }
 
-    const products = getProducts();
+    const body = {
+        nombre, id_categoria, precio, stock: isNaN(stock) ? 0 : stock,
+        estado, descripcion, costo
+    };
+
+    let data;
     if (editingProductId) {
-        const idx = products.findIndex(p => p.id === editingProductId);
-        if (idx >= 0) products[idx] = { ...products[idx], name, category, price, stock, status, desc, emoji, sku };
-        showToast('✅ Producto actualizado', 'success');
+        data = await apiFetch(`/products/${editingProductId}`, { method: 'PUT', body: JSON.stringify(body) });
     } else {
-        const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
-        products.push({ id: newId, name, category, price, stock, status, desc, emoji, sku });
-        showToast('✅ Producto agregado', 'success');
+        data = await apiFetch('/products', { method: 'POST', body: JSON.stringify(body) });
     }
 
-    saveProducts(products);
+    if (!data) return;
+    if (!data.ok) { showToast('❌ ' + data.message, 'error'); return; }
+
+    showToast(editingProductId ? '✅ Producto actualizado' : '✅ Producto creado', 'success');
     closeProductModal();
+
+    // Recargar desde la API
+    const fresh = await apiFetch('/products');
+    _products = fresh?.products || [];
     renderProducts();
     updateBadges();
 }
 
 function confirmDeleteProduct(id) {
-    const p = getProducts().find(x => x.id === id);
+    const p = _products.find(x => x.id_producto === id);
     if (!p) return;
-    document.getElementById('confirmTitle').textContent = `¿Eliminar "${p.name}"?`;
-    document.getElementById('confirmText').textContent = 'Este producto se eliminará permanentemente del catálogo.';
-    confirmCallback = () => {
-        const arr = getProducts().filter(x => x.id !== id);
-        saveProducts(arr);
+    document.getElementById('confirmTitle').textContent = `¿Eliminar "${p.nombre}"?`;
+    document.getElementById('confirmText').textContent = 'Este producto se eliminará permanentemente.';
+    confirmCallback = async () => {
+        const data = await apiFetch(`/products/${id}`, { method: 'DELETE' });
+        if (!data?.ok) { showToast('❌ ' + (data?.message || 'Error'), 'error'); return; }
+        const fresh = await apiFetch('/products');
+        _products = fresh?.products || [];
         renderProducts();
         updateBadges();
         showToast('🗑️ Producto eliminado', 'error');
@@ -364,14 +355,17 @@ function getFilteredClients() {
     });
 }
 
-function renderClients() {
+async function renderClients() {
+    if (!_clients.length) {
+        const data = await apiFetch('/clients');
+        _clients = data?.clients || [];
+    }
+
     const all = getFilteredClients();
     const start = (clientPage - 1) * ITEMS_PER_PAGE;
     const paged = all.slice(start, start + ITEMS_PER_PAGE);
     const tbody = document.getElementById('clientsTableBody');
     const empty = document.getElementById('clientsEmpty');
-    const pgInfo = document.getElementById('clientsPaginationInfo');
-    const pgNum = document.getElementById('clientPageNum');
 
     updateBadges();
 
@@ -384,47 +378,55 @@ function renderClients() {
 
     empty.style.display = 'none';
     document.getElementById('clientsPagination').style.display = 'flex';
-    pgInfo.textContent = `Mostrando ${start + 1}–${Math.min(start + ITEMS_PER_PAGE, all.length)} de ${all.length} clientes`;
-    pgNum.textContent = clientPage;
+    document.getElementById('clientsPaginationInfo').textContent =
+        `Mostrando ${start + 1}–${Math.min(start + ITEMS_PER_PAGE, all.length)} de ${all.length} clientes`;
+    document.getElementById('clientPageNum').textContent = clientPage;
 
     const rolBadge = {
-        VIP: '<span class="badge badge--vip">✨ VIP</span>',
-        Regular: '<span class="badge badge--active">Regular</span>',
-        Nuevo: '<span class="badge badge--new">Nuevo</span>',
+        Corporativo: '<span class="badge badge--vip">✨ Corp</span>',
+        Mayorista: '<span class="badge badge--active">Mayorista</span>',
+        Minorista: '<span class="badge badge--new">Minorista</span>',
     };
 
     tbody.innerHTML = paged.map(c => {
-        const initials = (c.name[0] || '') + (c.lastName[0] || '');
-        const status = c.status === 'Activo'
+        const initials = (c.contacto || c.empresa || '?').split(' ')
+            .map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const statusBadge = c.estado === 'Activo'
             ? '<span class="badge badge--active">● Activo</span>'
             : '<span class="badge badge--inactive">● Inactivo</span>';
 
         return `<tr>
-      <td>
-        <div class="table-client-cell">
-          <div class="table-client-avatar">${initials.toUpperCase()}</div>
-          <div>
-            <div class="table-client-name">${c.name} ${c.lastName}</div>
-            <div class="table-client-email">${c.email}</div>
-          </div>
-        </div>
-      </td>
-      <td><span style="font-size:.82rem;color:var(--color-text-muted);">${c.city || '—'}</span></td>
-      <td><span style="font-size:.86rem;font-weight:600;">${c.orders || 0}</span></td>
-      <td><span style="font-size:.8rem;color:var(--color-accent);font-weight:700;">🍬 ${c.points || 0}</span></td>
-      <td>${rolBadge[c.rol] || ''}</td>
-      <td>${status}</td>
-      <td>
-        <div class="table-actions">
-          <button class="table-action-btn" title="Editar" onclick="openEditClient(${c.id})">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-          </button>
-          <button class="table-action-btn table-action-btn--delete" title="Eliminar" onclick="confirmDeleteClient(${c.id})">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-          </button>
-        </div>
-      </td>
-    </tr>`;
+            <td>
+                <div class="table-client-cell">
+                    <div class="table-client-avatar">${initials}</div>
+                    <div>
+                        <div class="table-client-name">${c.contacto || '—'}</div>
+                        <div class="table-client-email">${c.email}</div>
+                    </div>
+                </div>
+            </td>
+            <td><span style="font-size:.82rem;color:var(--color-text-muted);">${c.empresa || '—'}</span></td>
+            <td><span style="font-size:.82rem;color:var(--color-text-muted);">${c.direccion || '—'}</span></td>
+            <td>${rolBadge[c.tipo] || ''}</td>
+            <td>${statusBadge}</td>
+            <td>
+                <div class="table-actions">
+                    <button class="table-action-btn" title="Editar" onclick="openEditClient(${c.id_cliente})">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                    </button>
+                    <button class="table-action-btn table-action-btn--delete" title="Eliminar"
+                        onclick="confirmDeleteClient(${c.id_cliente})">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </td>
+        </tr>`;
     }).join('');
 }
 
@@ -453,18 +455,17 @@ function openAddClient() {
 }
 
 function openEditClient(id) {
-    const c = getClients().find(x => x.id === id);
+    const c = _clients.find(x => x.id_cliente === id);
     if (!c) return;
     editingClientId = id;
     document.getElementById('clientModalTitle').textContent = 'Editar cliente';
-    document.getElementById('cName').value = c.name;
-    document.getElementById('cLastName').value = c.lastName;
+    document.getElementById('cName').value = c.contacto || '';
+    document.getElementById('cLastName').value = c.empresa || '';
     document.getElementById('cEmail').value = c.email;
-    document.getElementById('cPhone').value = c.phone || '';
-    document.getElementById('cCity').value = c.city || '';
-    document.getElementById('cRol').value = c.rol;
-    document.getElementById('cStatus').value = c.status;
-    document.getElementById('cNotes').value = c.notes || '';
+    document.getElementById('cPhone').value = c.telefono || '';
+    document.getElementById('cCity').value = c.direccion || '';
+    document.getElementById('cRol').value = c.tipo || 'Minorista';
+    document.getElementById('cStatus').value = c.estado || 'Activo';
     document.getElementById('clientModal').classList.add('modal-overlay--visible');
 }
 
@@ -473,40 +474,58 @@ function closeClientModal() {
     editingClientId = null;
 }
 
-function saveClient() {
-    const name = document.getElementById('cName').value.trim();
-    const lastName = document.getElementById('cLastName').value.trim();
+async function saveClient() {
+    const contacto = document.getElementById('cName').value.trim();
+    const empresa = document.getElementById('cLastName').value.trim();
     const email = document.getElementById('cEmail').value.trim();
-    const phone = document.getElementById('cPhone').value.trim();
-    const city = document.getElementById('cCity').value.trim();
-    const rol = document.getElementById('cRol').value;
-    const status = document.getElementById('cStatus').value;
-    const notes = document.getElementById('cNotes').value.trim();
+    const telefono = document.getElementById('cPhone').value.trim();
+    const direccion = document.getElementById('cCity').value.trim();
+    const tipo = document.getElementById('cRol').value;
+    const estado = document.getElementById('cStatus').value;
 
-    if (!name || !lastName || !email) {
-        showToast('⚠️ Completa los campos obligatorios', 'error');
-        return;
+    if (!contacto || !email) {
+        showToast('⚠️ Completa los campos obligatorios', 'error'); return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showToast('⚠️ Ingresa un correo válido', 'error');
-        return;
+        showToast('⚠️ Ingresa un correo válido', 'error'); return;
     }
 
-    const clients = getClients();
+    const body = { contacto, empresa, email, telefono, direccion, tipo, estado };
+
+    let data;
     if (editingClientId) {
-        const idx = clients.findIndex(c => c.id === editingClientId);
-        if (idx >= 0) clients[idx] = { ...clients[idx], name, lastName, email, phone, city, rol, status, notes };
-        showToast('✅ Cliente actualizado', 'success');
+        data = await apiFetch(`/clients/${editingClientId}`, { method: 'PUT', body: JSON.stringify(body) });
     } else {
-        const newId = clients.length ? Math.max(...clients.map(c => c.id)) + 1 : 1;
-        clients.push({ id: newId, name, lastName, email, phone, city, rol, status, notes, orders: 0, points: 0 });
-        showToast('✅ Cliente agregado', 'success');
+        data = await apiFetch('/clients', { method: 'POST', body: JSON.stringify(body) });
     }
 
-    saveClients(clients);
+    if (!data) return;
+    if (!data.ok) { showToast('❌ ' + data.message, 'error'); return; }
+
+    showToast(editingClientId ? '✅ Cliente actualizado' : '✅ Cliente creado', 'success');
     closeClientModal();
+
+    const fresh = await apiFetch('/clients');
+    _clients = fresh?.clients || [];
     renderClients();
     updateBadges();
+}
+
+function confirmDeleteClient(id) {
+    const c = _clients.find(x => x.id_cliente === id);
+    if (!c) return;
+    document.getElementById('confirmTitle').textContent = `¿Eliminar a "${c.contacto || c.empresa}"?`;
+    document.getElementById('confirmText').textContent = 'Este cliente se eliminará permanentemente.';
+    confirmCallback = async () => {
+        const data = await apiFetch(`/clients/${id}`, { method: 'DELETE' });
+        if (!data?.ok) { showToast('❌ ' + (data?.message || 'Error'), 'error'); return; }
+        const fresh = await apiFetch('/clients');
+        _clients = fresh?.clients || [];
+        renderClients();
+        updateBadges();
+        showToast('🗑️ Cliente eliminado', 'error');
+    };
+    document.getElementById('confirmModal').classList.add('modal-overlay--visible');
 }
 
 function confirmDeleteClient(id) {

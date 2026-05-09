@@ -311,9 +311,8 @@
                             <thead>
                                 <tr>
                                     <th>Cliente</th>
-                                    <th>Ciudad</th>
-                                    <th>Pedidos</th>
-                                    <th>Puntos</th>
+                                    <th>Empresa</th>
+                                    <th>Direccion</th>
                                     <th>Tipo</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
@@ -369,12 +368,6 @@
                         <label class="form-label">Categoría *</label>
                         <select class="form-select" id="pCategory">
                             <option value="">Seleccionar...</option>
-                            <option>Chocolatería</option>
-                            <option>Confitería</option>
-                            <option>Artesanal</option>
-                            <option>Pastelería</option>
-                            <option>Premium</option>
-                            <option>Regalos</option>
                         </select>
                     </div>
                     <div class="form-field">
@@ -398,12 +391,8 @@
                             placeholder="Descripción breve del producto..."></textarea>
                     </div>
                     <div class="form-field">
-                        <label class="form-label">Emoji / Icono</label>
-                        <input type="text" class="form-input" id="pEmoji" placeholder="🍫" maxlength="4" />
-                    </div>
-                    <div class="form-field">
-                        <label class="form-label">SKU / Código</label>
-                        <input type="text" class="form-input" id="pSku" placeholder="Ej. DP-001" />
+                        <label class="form-label">Costo (COP) *</label>
+                        <input type="number" class="form-input" id="pCost" placeholder="Ej. 58000" min="0" />
                     </div>
                 </div>
             </div>
@@ -441,7 +430,7 @@
                         <input type="text" class="form-input" id="cName" placeholder="Ej. Valentina Torres" />
                     </div>
                     <div class="form-field">
-                        <label class="form-label">Apellido *</label>
+                        <label class="form-label">Empresa *</label>
                         <input type="text" class="form-input" id="cLastName" placeholder="Ej. Restrepo" />
                     </div>
                     <div class="form-field form-field--full">
@@ -453,15 +442,15 @@
                         <input type="tel" class="form-input" id="cPhone" placeholder="+57 311 234 5678" />
                     </div>
                     <div class="form-field">
-                        <label class="form-label">Ciudad</label>
+                        <label class="form-label">Direccion</label>
                         <input type="text" class="form-input" id="cCity" placeholder="Ej. Medellín" />
                     </div>
                     <div class="form-field">
                         <label class="form-label">Tipo de cliente</label>
                         <select class="form-select" id="cRol">
-                            <option value="Nuevo">Nuevo</option>
-                            <option value="Regular">Regular</option>
-                            <option value="VIP">VIP</option>
+                            <option value="Minorista">Minorista</option>
+                            <option value="Mayorista">Mayorista</option>
+                            <option value="Corporativo">Corporativo</option>
                         </select>
                     </div>
                     <div class="form-field">
@@ -471,11 +460,7 @@
                             <option value="Inactivo">Inactivo</option>
                         </select>
                     </div>
-                    <div class="form-field form-field--full">
-                        <label class="form-label">Notas internas</label>
-                        <textarea class="form-textarea" id="cNotes"
-                            placeholder="Observaciones sobre el cliente..."></textarea>
-                    </div>
+                    
                 </div>
             </div>
             <div class="modal__footer">
