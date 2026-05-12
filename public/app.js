@@ -239,7 +239,7 @@ function changeProductPage(dir) {
 // 7. MODAL PRODUCTO
 // ──────────────────────────────────────────────
 function clearProductForm() {
-    ['pName', 'pCategory', 'pPrice', 'pStock', 'pStatus', 'pDesc', 'pEmoji', 'pSku'].forEach(id => {
+    ['pName', 'pCategory', 'pPrice', 'pStock', 'pStatus', 'pDesc', 'pCost'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = id === 'pStatus' ? 'Activo' : '';
     });
@@ -265,6 +265,7 @@ async function openEditProduct(id) {
     document.getElementById('pStock').value = p.stock;
     document.getElementById('pStatus').value = p.estado;
     document.getElementById('pDesc').value = p.descripcion || '';
+    document.getElementById('pCost').value = p.costo || 0;
     document.getElementById('productModal').classList.add('modal-overlay--visible');
 }
 
