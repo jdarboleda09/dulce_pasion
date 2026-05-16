@@ -2488,9 +2488,10 @@
   </footer>
 
   <script>
-    // ── Protección de ruta + cargar datos del usuario ─────────────
+    const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
+
+    if (!token || !user) {
       window.location.href = 'auth.html';
     } else {
       // 1. Nombre en el botón del navbar

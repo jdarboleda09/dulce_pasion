@@ -627,7 +627,7 @@ function logout() {
 // 15. INIT
 // ──────────────────────────────────────────────
 const user = JSON.parse(localStorage.getItem('user'));
-if (!user || user.rol !== 'admin') {
+if (!user || (user.rol !== 'admin' && user.rol !== 'empleado')) {
     window.location.href = './auth.html';
 } else {
     // Mostrar nombre del admin en el sidebar
